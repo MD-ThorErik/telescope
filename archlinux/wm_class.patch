@@ -1,0 +1,51 @@
+diff --git a/TeleWindow.cpp b/TeleWindow.cpp
+index effffa6..239d3cb 100644
+--- a/TeleWindow.cpp
++++ b/TeleWindow.cpp
+@@ -93,8 +93,9 @@ TeleWindow::TeleWindow(Display *dpy)
+         XA_ATOM, 32, PropModeReplace,
+         (const unsigned char*)&windowType, 1);
+ 
+-
+-
++    // Set WM_CLASS and WM_NAME
++    XSetClassHint(_dpy, _win, &XTools::app_class);
++    XStoreName(_dpy, _win, strdup("telescope"));
+     // Initializing Xft
+ 
+     _xftFont = XftFontOpen(_dpy, scr,
+diff --git a/XTools.cpp b/XTools.cpp
+index a68f455..4419629 100644
+--- a/XTools.cpp
++++ b/XTools.cpp
+@@ -49,7 +49,7 @@ Atom XTools::WM_NAME;
+ Atom XTools::_NET_WM_ICON;
+ Atom XTools::WM_PROTOCOLS;
+ Atom XTools::WM_DELETE_WINDOW;
+-
++XClassHint XTools::app_class;
+ 
+ #define INIT_ATOM(dpy, ATOMNAME)        ATOMNAME = XInternAtom((dpy), #ATOMNAME, 0L)
+ 
+@@ -75,6 +75,8 @@ void XTools::init(Display *dpy)
+     INIT_ATOM(dpy, _NET_WM_ICON);
+     INIT_ATOM(dpy, WM_PROTOCOLS);
+     INIT_ATOM(dpy, WM_DELETE_WINDOW);
++    app_class.res_name  = strdup("telescope");
++    app_class.res_class = strdup("Telescope");
+ 
+     _prevErrorHandler = XSetErrorHandler(errorHandler);
+ }
+diff --git a/XTools.h b/XTools.h
+index 0eab0db..f55bff8 100644
+--- a/XTools.h
++++ b/XTools.h
+@@ -51,6 +51,8 @@ class XTools
+         static Atom WM_PROTOCOLS;
+         static Atom WM_DELETE_WINDOW;
+ 
++        static XClassHint app_class;
++
+         static void init(Display *dpy);
+ 
+         static Window rootWindow();

@@ -1,0 +1,34 @@
+diff --git a/Makefile b/Makefile
+index 412a7c2..e686376 100644
+--- a/Makefile
++++ b/Makefile
+@@ -12,7 +12,7 @@ all: telescope
+ DEFINES = -DDESKTOP -DDBUS
+ #DEFINES = -DMAEMO4 -DDBUS
+ 
+-LAUNCHER = 0
++LAUNCHER = 1
+ 
+ SOURCES = TeleWindow.cpp    \
+           Main.cpp          \
+@@ -38,7 +38,6 @@ ifeq ($(LAUNCHER),1)
+         Application.cpp
+ 
+     SHAREFILES += \
+-         text-background.png        \
+          indicator.png              \
+          navigation.png             \
+          transparent.png            \
+@@ -59,6 +58,7 @@ SHAREFILES += header-left.png    \
+               header-right-selected.png  \
+               header-middle-selected.png \
+               broken-pattern.png         \
++              text-background.png        \
+               install-notice.txt
+ 
+ CONFFILES = telescope.conf telescope.keys
+@@ -94,3 +94,4 @@ install: telescope telescope-svc $(SHAREFILES) $(CONFFILES)
+ 	cp -r $(SHAREFILES) $(DESTDIR)/usr/share/telescope/
+ 	mkdir -p $(DESTDIR)/etc/
+ 	cp $(CONFFILES) $(DESTDIR)/etc/
++

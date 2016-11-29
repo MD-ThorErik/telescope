@@ -1,0 +1,38 @@
+# Contributor: onyros
+
+pkgname=telescope-git
+pkgver=8
+pkgrel=2
+pkgdesc="Telescope is an alternative task switcher, Expos?/Scale like, latest hg-pull" 
+url="git+https://github.com/AdamCDunlap/telescope.git"
+source=('git+https://github.com/AdamCDunlap/telescope.git' 'wm_class.patch' 'makefile.patch' 'menureader.patch')
+md5sums=('SKIP' '2e1081e5d5823da7182df0e246c52b70' 'dd45184138c969480e637e68247fb416' '92565ab22044c7abb74340a056344f52')
+arch=('i686' 'x86_64' 'arm')
+license=('GPL')
+depends=('libxcomposite' 'libxdamage' 'libxrender' 'imlib2' 'libxft' 'dbus')
+provides=(telescope)
+makedepends=('pkgconfig' 'git')
+_gitroot="https://github.com/AdamCDunlap"
+_gitrepo="telescope"
+
+build() {
+  cd ${srcdir}/${_gitrepo}
+  rm -rf $srcdir/$_gitrepo-build
+  cp -a ${srcdir}/${_gitrepo} ${srcdir}/${_gitrepo}-build
+  cp ${srcdir}/wm_class.patch ${srcdir}/${_gitrepo}-build/
+  cp ${srcdir}/makefile.patch ${srcdir}/${_gitrepo}-build/
+  cp ${srcdir}/menureader.patch ${srcdir}/${_gitrepo}-build/
+  cd ${srcdir}/${_gitrepo}-build
+  patch -p1 < wm_class.patch
+  patch -p1 < makefile.patch
+  patch -p1 < menureader.patch
+  make 
+}
+
+package() {
+  cd ${srcdir}/${_gitrepo}-build
+  mkdir -p $pkgdir/usr/bin
+  mkdir $pkgdir/etc
+  make PREFIX=$pkgdir/usr DESTDIR=${pkgdir} install 
+}
+
