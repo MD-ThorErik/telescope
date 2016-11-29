@@ -51,6 +51,8 @@ class XTools
         static Atom WM_PROTOCOLS;
         static Atom WM_DELETE_WINDOW;
 
+        static XClassHint app_class;
+
         static void init(Display *dpy);
 
         static Window rootWindow();

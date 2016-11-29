@@ -49,7 +49,7 @@ Atom XTools::WM_NAME;
 Atom XTools::_NET_WM_ICON;
 Atom XTools::WM_PROTOCOLS;
 Atom XTools::WM_DELETE_WINDOW;
-
+XClassHint XTools::app_class;
 
 #define INIT_ATOM(dpy, ATOMNAME)        ATOMNAME = XInternAtom((dpy), #ATOMNAME, 0L)
 
@@ -75,6 +75,8 @@ void XTools::init(Display *dpy)
     INIT_ATOM(dpy, _NET_WM_ICON);
     INIT_ATOM(dpy, WM_PROTOCOLS);
     INIT_ATOM(dpy, WM_DELETE_WINDOW);
+    app_class.res_name  = strdup("telescope");
+    app_class.res_class = strdup("Telescope");
 
     _prevErrorHandler = XSetErrorHandler(errorHandler);
 }

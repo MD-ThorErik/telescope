@@ -93,8 +93,9 @@ TeleWindow::TeleWindow(Display *dpy)
         XA_ATOM, 32, PropModeReplace,
         (const unsigned char*)&windowType, 1);
 
-
-
+    // Set WM_CLASS and WM_NAME
+    XSetClassHint(_dpy, _win, &XTools::app_class);
+    XStoreName(_dpy, _win, strdup("telescope"));
     // Initializing Xft
 
     _xftFont = XftFontOpen(_dpy, scr,
